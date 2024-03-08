@@ -1,0 +1,9 @@
+patch:
+  switcher:
+    caption: 输入法设置
+
+  schema_list:
+    - schema: zen-flytiger # 禅意鹤虎
+
+  menu:
+    page_size: 3 # 每页最多显示 3 个候选

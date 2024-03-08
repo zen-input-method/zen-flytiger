@@ -1,0 +1,154 @@
+# Rime schema settings
+# encoding: utf-8
+
+schema:
+  schema_id: zen-flytiger
+  name: 禅意鹤虎
+  version: "0.0.1"
+  description: |
+    小鹤双拼+虎码首末形码+单一候选+无后续编码自动上屏
+  dependencies:
+    - tiger.extended
+
+punctuator:
+  import_preset: default
+
+switches:
+  - name: ascii_mode
+    states: [ 中, En ]
+    reset: 0
+  - name: full_shape
+    states: [ ◖, ● ]
+  - name: simplification
+    states: [ 汉, 漢 ]
+    reset: 0
+  - name: ascii_punct
+    states: [ "，。", ", ." ]
+    reset: 0
+
+engine:
+  processors:
+    - lua_processor@mixed_input_processor
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - affix_segmentor@udzc
+    - affix_segmentor@emoji
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - table_translator
+    - table_translator@fixed
+    - table_translator@udzc
+    - lua_translator@pimgeek_date_translator
+    - lua_translator@pimgeek_time_translator
+    - lua_translator@pimgeek_english_translator
+    - table_translator@shared_emoji # 用户自定义表情
+    - reverse_lookup_translator
+    - lua_translator@calculator_translator # 简易计算器
+  filters:
+    - lua_filter@pimgeek_preedit_filter
+    - simplifier
+    - simplifier@simplification
+    - single_char_filter
+    - uniquifier
+
+speller:
+  alphabet: 'abcdefghijklmnopqrstuvwxyz/;`'
+  delimiter: " '"
+  auto_select: true   #自动上屏
+
+translator:
+  dictionary: zen-flytiger
+  enable_charset_filter: false
+  enable_sentence: false
+  enable_encoder: false
+  enable_completion: true # 编码提示 true 开启  false 关闭
+  encode_commit_history: false
+  enable_user_dict: false
+  initial_quality: 1
+  disable_user_dict_for_patterns:
+    - "^o.*$"
+    - "^`.*$"
+  comment_format:
+    - "xform/^.+$/…/"
+
+fixed:
+  __include: /translator
+  enable_encoder: true
+  enable_user_dict: true
+  encode_commit_history: false  # 开启/关闭自动造词功能：true/false。
+  max_phrase_length: 4
+  initial_quality: -1.5
+
+udzc:
+  __include: /translator
+  initial_quality: -1
+  enable_sentence: true
+  prefix: "'"
+  tips: "〔造词〕"
+  tag: udzc
+
+simplification:
+  opencc_config: st_tu.json
+  option_name: simplification
+  tips: all #简繁对照
+
+shared_emoji:
+  dictionary: ""
+  user_dict: shared_emoji
+  db_class: stabledb
+  enable_sentence: false
+  enable_completion: false
+  initial_quality: -1 #本表词和系统词重码居后
+
+pimgeek_english_translator:
+  tag: abc
+  prefix: "~"
+
+reverse_lookup:
+  dictionary: tiger.extended
+  prefix: "`"
+  tips: "〔虎码〕"
+
+key_binder:
+  import_preset: default #方案切换相关
+  bindings:
+    - { accept: bracketleft, send: Page_Up, when: paging } # [上翻页
+    - { accept: bracketright, send: Page_Down, when: has_menu } # ]下翻页
+    - { accept: comma, send: comma, when: paging } #注销逗号翻页
+    - { accept: period, send: period, when: has_menu } #注销句号翻页
+    - { accept: dollar, send: 2, when: composing }
+    - { accept: Release+dollar, send: period, when: composing }
+    - { accept: bar, send: 2, when: composing }
+    - { accept: Release+bar, send: comma, when: composing }
+    - { accept: "Shift+space", toggle: full_shape, when: always } #切换全半角
+    - { accept: "Control+j", toggle: simplification, when: always } #切换简繁
+
+recognizer:
+  import_preset: default
+  patterns:
+    uppercase: "[A-Z][-_+.'0-9A-Za-z]*$"
+    reverse_lookup: "^`[a-z]*'?$"
+    udzc: "^[a-z]*'[a-z']*$"
+    english: "^~[!-~]*$"
+    expression: "^=.*$"
+    punct: ""
+
+preset_color_schemes:
+  metro:
+    preedit_type: composition
+    #horizontal: true
+
+menu:
+  page_size: 1 #候选项数
