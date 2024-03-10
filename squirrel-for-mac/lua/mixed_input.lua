@@ -13,7 +13,7 @@ local function mixed_input(key, env)
     elseif (key:repr() == "space") then
       if (input == "~") then
         context.input = "~~"
-      elseif (string.match(input, "^~[^,.!?):~*-]")) then
+      elseif (string.match(input, "^~[^!#(-&/:-@[-`{-~]")) then
         context:push_input("`")
         return kAccepted
       elseif (string.match(input, "``")) then

@@ -2,11 +2,11 @@
 # encoding: utf-8
 
 schema:
-  schema_id: flytiger
-  name: 鹤虎盲打输入法
-  version: "1.0.0"
+  schema_id: zen-flytiger
+  name: 禅意鹤虎
+  version: "0.0.1"
   description: |
-    小鹤双拼+虎码首末形码+隐藏候选+无后续编码自动上屏
+    小鹤双拼+虎码首末形码+单一候选+无后续编码自动上屏
   dependencies:
     - tiger.extended
 
@@ -69,7 +69,7 @@ speller:
   auto_select: true   #自动上屏
 
 translator:
-  dictionary: flytiger
+  dictionary: zen-flytiger
   enable_charset_filter: false
   enable_sentence: false
   enable_encoder: false
@@ -154,4 +154,4 @@ style:
   color_scheme: metro
 
 menu:
-  page_size: 0 #候选项数
+  page_size: 1 #候选项数
