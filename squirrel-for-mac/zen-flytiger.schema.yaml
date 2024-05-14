@@ -4,9 +4,9 @@
 schema:
   schema_id: zen-flytiger
   name: 禅意鹤虎
-  version: "0.0.1"
+  version: "0.0.2"
   description: |
-    小鹤双拼+虎码首末形码+单一候选+无后续编码自动上屏
+    小鹤双拼+虎码首末形码+三个候选+无后续编码自动上屏
   dependencies:
     - tiger.extended
 
@@ -81,7 +81,7 @@ translator:
     - "^o.*$"
     - "^`.*$"
   comment_format:
-    - "xform/^.+$/…/"
+    #- "xform/^.+$/…/"
 
 fixed:
   __include: /translator
@@ -154,4 +154,4 @@ style:
   color_scheme: metro
 
 menu:
-  page_size: 1 #候选项数
+  page_size: 3 #候选项数
