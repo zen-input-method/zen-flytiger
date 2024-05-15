@@ -4,7 +4,7 @@
 schema:
   schema_id: zen-flytiger
   name: 禅意鹤虎
-  version: "0.0.2"
+  version: "0.0.3"
   description: |
     小鹤双拼+虎码首末形码+三个候选+无后续编码自动上屏
   dependencies:
