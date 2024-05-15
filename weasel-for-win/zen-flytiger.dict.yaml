@@ -18,7 +18,7 @@ encoder:
     - length_in_range: [4, 14]
       formula: "AaBaCaZa"
 ...
-#	⓿	个性化编码
+#	❶	个性化编码
 ## 自定义二简
 #或	ho	9960243
 #马	ma	9948278
@@ -65,7 +65,7 @@ encoder:
 #眼泪	yjlwq	999
 #有时	yzuin	999
 #钻石	zruiz	999
-#	❶	一简字·全部 1 码
+#	❷	一简字·全部 1 码
 啊	a
 不	b
 此	c
@@ -92,7 +92,7 @@ encoder:
 小	x
 一	y
 在	z
-#	❷	二简字·全部 2 码
+#	❸	二简字·全部 2 码
 阿	aa
 昂	ah
 爱	ai
@@ -498,7 +498,7 @@ encoder:
 贼	zw
 尊	zy
 走	zz
-#	❸	三简字·全部 3 码
+#	❹	三简字·全部 3 码
 啊	aad
 阿	aat
 腌	aav
@@ -4757,7 +4757,7 @@ encoder:
 揍	zzu
 鲰	zzw
 邹	zzx
-#	❹	全码字·多数 4 码，最长 5 码
+#	❺	全码字·多数 4 码，最长 5 码
 吖	aadg
 嗄	aadh
 啊	aadz
@@ -11975,7 +11975,7 @@ encoder:
 揍	zzum
 鲰	zzwr
 邹	zzxt
-#	❺	词组和短语·4 码
+#	❻	词组和短语·4 码
 啊啊	aaaa	1
 阿爸	aaba	36
 阿伯	aabo	1940
