@@ -1,15 +1,15 @@
 # 禅意鹤虎输入法 (zen-flytiger)
 
-本输入法由 pimgeek 基于国标 6763 高频汉字、小鹤双拼编码规则和虎码形码编码规则综合定制生成，其主要优化目标是减少“选择困难”。对于熟练使用双拼打字的用户，可以用虎码形码筛选同音但不同形的单字，从而更少使用候选/翻页等操作，甚至实现单字完全盲打。
+本输入法由 pimgeek 基于国标 6763 高频汉字、小鹤双拼编码规则和虎码形码编码规则综合定制生成，其主要优化目标是减少“选择困难”。对于熟练使用双拼打字的用户，可以用虎码形码筛选同音但不同形的单字/词组，从而更少使用候选/翻页等操作，甚至实现单字完全盲打。
 
 ## 功能特点
 
-1. 内含国标 6763 高频单字和 31762 个常用词组。
-1. 单字全码输入时用小鹤双拼确定读音，用虎码首末字根确定字形，候选列表只显示一项
-1. 词组全码输入时 2 字词采用声韵声韵编码格式，3 字词采用声声声韵，4 词采用声声声声
+1. 内含国标 6763 高频单字和 67880 个常用词组。
+1. 单字全码输入：小鹤双拼确定读音，虎码首末字根确定字形，候选列表默认显示 3 项 (设为 0 可练习盲打)
+1. 词组全码输入：2 字词采用声韵声韵编码格式，3 字词采用声-声-声-韵，4 词采用声-声-声-声
 1. 无后续编码时，已列入候选的字或词组自动上屏
 1. 支持以 `` ` `` 号实现虎码反查
-1. 支持以 `~` 号进入英文长句输入模式 (回车键退出)
+1. 支持以 `~` 号进入英文长句输入模式 (连按两次空格键退出)
 1. 支持以 `;` 引导表情符号输入模式 (编码符号对照表 `shared_emoji.txt`)
 1. 支持以 `;rq` 输入当前日期，以 `;zt` 输入当前时间，以 `;zd` 或 `;zz` 在输入日期的同时附加小时分钟
 
@@ -19,38 +19,42 @@
 
 ❶ 双拼输入存在单字多音的情况，为 6763 高频汉字分配多种读音后，共有 7223 条单字编码记录
 
-❷ 在这 7223 条单字记录中，有 6476 条记录采用 “声母码+韵母码+首根大码+末根大码” 的形式（对于单根字则采用 “声母码+韵母码+字根大码+字根小码” 的形式），可以完全无歧义地盲打出来
+❷ 在这 7223 条单字记录中，有 6476 条记录采用 “声母码+韵母码+首根大码+二根大码” 的编码方式（对于单根字则采用 “声母码+韵母码+字根大码+字根小码” 编码方式），可以完全无冲突地打出来
 
-❸ 排除这 6476 条单字记录，还剩 747 条记录存在形码冲突，绝大部分采用追加末根小码方式完全消除冲突，即采用 “声母码+韵母码+首根大码+末根大码” 形式（对于单根字则采用 “声母码+韵母码+字根大码+字根小码+二次使用字根小码” 形式），追加末根小码仍然无法去重的单字，采用追加无理码方式
+❸ 排除这 6476 条单字记录，还剩 747 条记录存在形码冲突，绝大部分采用追加末根小码方式完全消除冲突，即采用 “声母码+韵母码+首根大码+末根大码+末根小码” 形式 (对于单根字则采用 “声母码+韵母码+字根大码+字根小码+二次使用字根小码” 形式)，追加末根小码仍然无法去重的单字，采用追加无理码方式
 
 > 例如：北 ➠ bwav，背 ➠ bwavy，模 ➠ muem，木 ➠ muemm
 
-因为引入了无理码，所以这 747 条记录无法简单总结编码规律，文末直接列举了所有去重编码供参考（必要时，使用者可以自行修改去重编码，按照 ❿ 中的说明修改 flytiger.dict.yaml 文件即可）
+因为引入了无理码，所以这 747 条记录无法简单总结编码规律，文末直接列举了所有去重编码供参考 (必要时可自行设置去重编码，直接修改 flytiger.dict.yaml 文件即可)
 
-❹ 特别常用的汉字被分配了单字母编码，比如 我 ➠ w，你 ➠ n，他 ➠ t 等等，这些记录被统称为一简字，共有 26 个
+❹ 特别常用的汉字被分配了单字母编码，比如 我 ➠ w，你 ➠ n，他 ➠ t 等等，这些被称为一简字，共有 26 个编码
 
-❺ 排除一简字之后的常用字，被分配了双字母编码，比如 好 ➠ hc，有 ➠ yz，爱 ➠ ai 等等，这些记录被统称为二简字，共有 409 个
+❺ 排除一简字后的常用字，被分配了双字母编码，比如 好 ➠ hc，有 ➠ yz，爱 ➠ ai 等等，这些被称为二简字，共有 407 个编码
 
-❻ 排除一简字/二简字之后的常用字，被分配了三字母编码，比如：常 ➠ ihs，读 ➠ dus，书 ➠ uua， 等等，这些记录被统称为三简字，共有 3981 个
+❻ 排除一简字/二简字后的常用字，被分配了三字母编码，比如：常 ➠ ihs，读 ➠ dus，书 ➠ uua， 等等，这些被称为三简字，共有 4246 个编码
 
-❼ 无论是否出现在一、二、三简字列表中，所有 6763 高频汉字都拥有独一无二的“全码”，其中有 6834 个四码字，396 个五码字，总计 7230 个全码，一简字+二简字+三简字+全码字，总共有 11646 条记录
+❼ 无论是否出现在一、二、三简字列表中，所有 6763 高频汉字都拥有独一无二的“全码”，其中有 6834 个四码字，396 个五码字，共有 7230 个编码
 
-❽ 在确保不增加重码的前提下，增加了 44457 个常规词组编码，编码形式有 3 种：
+❽ 为提高常用词的输入效率，增加了 67880 个常规词组编码，编码形式有 3 种：
 
 > 首字声母+首字韵母+二字声母+二字韵母，比如 走运 ➠ zzyy，猜想 ➠ cdxl，寄托 ➠ jito 等等
 > 首字声母+二字声母+三字声母+三字韵母，比如 纪录片 ➠ jlpm，纯净水 ➠ ijuv，连锁店 ➠ lsdm 等等
-> 首字声母+二字声母+三字声母+末字声母，比如 赤子之心 ➠ izzx，阿拉伯数字 ➠ albz，俯首甘为孺子牛 ➠ fugn 等等
+> 首字声母+二字声母+三字声母+末字声母，比如 刨根问底 ➠ izzx，阿拉伯数字 ➠ albz，俯首甘为孺子牛 ➠ fugn 等等
+> 如果输入了 4 位编码后得到的首选项并非真正想要的词组，可以在编码末尾追加形码，比如：
+>
+> `uiui ➠ 1 实施, 2 事实, 3 实时, 4 试试, 5 时事, ...`
+> 
+> 为了免于输入候选编号，可以在打词时追加首末字形码：
+>
+> `uiuifw ➠ 事实, uiuiss ➠ 试试, uiuiof ➠ 时事`
 
-❾ 在确保不增加重码的前提下，增加了 20539 个补充词组编码，编码形式为：
 
-> 字母o+常规词组编码+单词首字首根大码，单词末字首根大码
-
-❿ 如果对默认的编码方式不满意，可以在 flytiger.dict.yaml 文件的第 21 行到 47 行之间加入自定义编码，编码形式为：
+如果对默认的编码方式不满意，可以在 flytiger.dict.yaml 文件中加入自定义编码，格式为：
 
 > 单字	单字编码	顺序号
 > 词组	词组编码	顺序号
 
-顺序号为正整数，只要顺序号大于 0 就比默认编码更优先；顺序号越大，打字时处于候选列表中的位置越靠上。
+顺序号为正整数，有顺序号的编码就比无编码的更优先；顺序号越大越优先 (即：出现在候选列表中更靠近眼前的位置)。
 
 ----
 
@@ -80,8 +84,8 @@
 荸	bilh		荸	bilh
 蔽	bilh	|	蔽	bilhp
 荜	biln		荜	biln
-薜	biln	|	薜	bilnx
 萆	biln	|	萆	bilns
+薜	biln	|	薜	bilnx
 篦	birv		篦	birv
 笔	birv	|	笔	birvm
 毙	bivv		毙	bivv
@@ -93,8 +97,8 @@
 舨	bjir		舨	bjir
 般	bjir	|	般	bjirs
 斑	bjnn		斑	bjnn
-瓣	bjnn	|	瓣	bjnnx
 班	bjnn	|	班	bjnnw
+瓣	bjnn	|	瓣	bjnnx
 搬	bjur		搬	bjur
 扳	bjur	|	扳	bjury
 煸	bmci		煸	bmci
@@ -102,8 +106,8 @@
 扁	bmmi		扁	bmmi
 碥	bmmi	|	碥	bmmic
 辩	bmnn		辩	bmnn
-辨	bmnn	|	辨	bmnnp
 辫	bmnn	|	辫	bmnni
+辨	bmnn	|	辨	bmnnp
 埔	bugn		埔	bugn
 埠	bugn	|	埠	bugns
 北	bwav		北	bwav
@@ -145,9 +149,9 @@
 膻	djvf		膻	djvf
 胆	djvf	|	胆	djvfi
 鼎	dkqa		鼎	dkqa
-町	dkqa	|	町	dkqat
 耵	dkqa	|	耵	dkqae
 盯	dkqa	|	盯	dkqam
+町	dkqa	|	町	dkqat
 貂	dnmd		貂	dnmd
 碉	dnmd	|	碉	dnmdk
 鲷	dnwd		鲷	dnwd
@@ -177,8 +181,8 @@
 畈	fjqr		畈	fjqr
 饭	fjqr	|	饭	fjqry
 蜉	fuch		蜉	fuch
-蝮	fuch	|	蝮	fuchi
 蚨	fuch	|	蚨	fuchf
+蝮	fuch	|	蝮	fuchi
 桴	fueh		桴	fueh
 复	fueh	|	复	fuehi
 斧	fuht		斧	fuht
@@ -193,9 +197,8 @@
 袱	futm		袱	futm
 艴	futm	|	艴	futmb
 肤	fuvh		肤	fuvh
-腹	fuvh	|	腹	fuvhi
-覆	fuvh	|	腹	fuvhy
-				>	覆	fuvhx
+覆	fuvh	|	覆	fuvhx
+腹	fuvh	|	腹	fuvhy
 馥	fuxh		馥	fuxh
 稃	fuxh	|	稃	fuxhi
 凫	fuxo		凫	fuxo
@@ -211,8 +214,8 @@
 国	gori		国	gori
 帼	gori	|	帼	gorid
 冠	grwk		冠	grwk
-鳏	grwk	|	鳏	grwks
 官	grwk	|	官	grwki
+鳏	grwk	|	鳏	grwks
 恭	gslh		恭	gslh
 共	gslh	|	共	gslhb
 攻	gsuh		攻	gsuh
@@ -220,9 +223,8 @@
 崮	guvc		崮	guvc
 臌	guvc	|	臌	guvci
 罟	guyc		罟	guyc
-酤	guyc	|	酤	guycg
-轱	guyc	|	酤	guycy
-				>	轱	guycc
+轱	guyc	|	轱	guycc
+酤	guyc	|	酤	guycy
 锢	guzc		锢	guzc
 钴	guzc	|	钴	guzcg
 闺	gvag		闺	gvag
@@ -259,9 +261,8 @@
 灬	hoch		灬	hoch
 火	hoch	|	火	hochh
 蝴	hucv		蝴	hucv
+胡	hucv	|	胡	hucvg
 煳	hucv	|	煳	hucvy
-胡	hucv	|	煳	hucvh
-				>	胡	hucvg
 浒	hukn		浒	hukn
 滹	hukn	|	滹	hukns
 瓠	humy		瓠	humy
@@ -277,8 +278,8 @@
 嚓	iadf		嚓	iadf
 喳	iadf	|	喳	iadfi
 楂	iaef		楂	iaef
-檫	iaef	|	檫	iaefs
 查	iaef	|	查	iaefi
+檫	iaef	|	檫	iaefs
 猹	iamf		猹	iamf
 碴	iamf	|	碴	iamfi
 骋	igna		骋	igna
@@ -320,9 +321,9 @@
 鲫	jiwz		鲫	jiwz
 寄	jiwz	|	寄	jiwzk
 季	jixh		季	jixh
-急	jixh	|	急	jixhx
-稷	jixh	|	稷	jixhi
 积	jixh	|	积	jixhb
+稷	jixh	|	稷	jixhi
+急	jixh	|	急	jixhx
 稽	jixo		稽	jixo
 麂	jixo	|	麂	jixoj
 憬	jkhy		憬	jkhy
@@ -406,8 +407,8 @@
 璃	linv		璃	linv
 骊	linv	|	骊	linvy
 厉	lixp		厉	lixp
-黧	lixp	|	黧	lixph
 利	lixp	|	利	lixpd
+黧	lixp	|	黧	lixph
 历	lixs		历	lixs
 励	lixs	|	励	lixsl
 伶	lkjk		伶	lkjk
@@ -421,8 +422,8 @@
 珞	lons		珞	lons
 骆	lons	|	骆	lonsg
 鬣	lppp		鬣	lppp
-躐	lppp	|	躐	lppps
 趔	lppp	|	趔	lpppd
+躐	lppp	|	躐	lppps
 隆	lstl		隆	lstl
 龙	lstl	|	龙	lstll
 轳	luyc		轳	luyc
@@ -482,8 +483,8 @@
 貔	pimv		貔	pimv
 砒	pimv	|	砒	pimvb
 裨	pitn		裨	pitn
-霹	pitn	|	霹	pitnx
 陴	pitn	|	陴	pitns
+霹	pitn	|	霹	pitnx
 丬	pjap		丬	pjap
 爿	pjap	|	爿	pjapp
 襻	pjtu		襻	pjtu
@@ -497,9 +498,8 @@
 溥	pukk		溥	pukk
 瀑	pukk	|	瀑	pukks
 莆	puln		莆	puln
-蒲	puln	|	蒲	pulnf
-葡	puln	|	蒲	pulnk
-				>	葡	pulnn
+蒲	puln	|	蒲	pulnk
+葡	puln	|	葡	pulnn
 曝	puok		曝	puok
 暴	puok	|	暴	puoks
 栖	qiev		栖	qiev
@@ -572,9 +572,8 @@
 裟	uakt		裟	uakt
 沙	uakt	|	沙	uaktp
 深	ufke		深	ufke
-渗	ufke	|	渗	ufkek
-参	ufke	|	渗	ufkke
-				>	参	ufkes
+参	ufke	|	参	ufkes
+渗	ufke	|	渗	ufkke
 矧	ufog		矧	ufog
 申	ufog	|	申	ufogs
 甥	ugls		甥	ugls
@@ -665,8 +664,7 @@
 心	xbhx	|	心	xbhxx
 熄	xich		熄	xich
 蟋	xich	|	蟋	xichx
-螅	xich	|	螅	xicho
-				>	螅	xicoh
+螅	xich	|	螅	xicoh
 鼷	xipm		鼷	xipm
 蹊	xipm	|	蹊	xipmd
 饩	xiqv		饩	xiqv
@@ -710,8 +708,8 @@
 雅	yalu		雅	yalu
 迓	yalu	|	迓	yaluc
 崾	ycvb		崾	ycvb
-腰	ycvb	|	腰	ycvby
 要	ycvb	|	要	ycvbx
+腰	ycvb	|	腰	ycvby
 鳐	ycwa		鳐	ycwa
 徭	ycwa	|	徭	ycwaf
 烊	yhcg		烊	yhcg
@@ -759,8 +757,8 @@
 嬴	ykfi		嬴	ykfi
 赢	ykfi	|	赢	ykfid
 滢	ykki		滢	ykki
-潆	ykki	|	潆	ykkis
 瀛	ykki	|	瀛	ykkid
+潆	ykki	|	潆	ykkis
 荧	yklc		荧	yklc
 萤	yklc	|	萤	yklcc
 莹	ykli		莹	ykli
@@ -811,6 +809,5 @@
 糌	zjpo	|	糌	zjpor
 粽	zspf		粽	zspf
 鬃	zspf	|	鬃	zspfs
-踪	zspf	|	鬃	zspfc
-				>	踪	zspfz
+踪	zspf	|	踪	zspfz
 ```
