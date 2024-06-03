@@ -4,9 +4,9 @@
 schema:
   schema_id: zen-flytiger
   name: 禅意鹤虎
-  version: "0.0.4"
+  version: "0.0.5"
   description: |
-    小鹤双拼+虎码首末形码+三个候选+无后续编码自动上屏
+    小鹤双拼+虎码首末形码+三个候选
   dependencies:
     - tiger.extended
 
@@ -40,7 +40,7 @@ engine:
   segmentors:
     - ascii_segmentor
     - matcher
-    - affix_segmentor@udzc
+    #- affix_segmentor@udzc
     - affix_segmentor@emoji
     - abc_segmentor
     - punct_segmentor
@@ -49,7 +49,7 @@ engine:
     - punct_translator
     - table_translator
     - table_translator@fixed
-    - table_translator@udzc
+    #- table_translator@udzc
     - lua_translator@pimgeek_date_translator
     - lua_translator@pimgeek_time_translator
     - lua_translator@pimgeek_english_translator
@@ -57,23 +57,25 @@ engine:
     - reverse_lookup_translator
     - lua_translator@calculator_translator # 简易计算器
   filters:
+    - single_char_filter
     - lua_filter@pimgeek_preedit_filter
     - simplifier
     - simplifier@simplification
-    - single_char_filter
+    #- single_char_filter
     - uniquifier
 
 speller:
   alphabet: 'abcdefghijklmnopqrstuvwxyz/;`'
   delimiter: " '"
-  auto_select: true   #自动上屏
+  max_code_length: 6
+  auto_select: false   #自动上屏
 
 translator:
   dictionary: zen-flytiger
   enable_charset_filter: false
   enable_sentence: false
   enable_encoder: false
-  enable_completion: true # 编码提示 true 开启  false 关闭
+  enable_completion: false # 编码提示 true 开启  false 关闭
   encode_commit_history: false
   enable_user_dict: false
   initial_quality: 1
@@ -81,23 +83,25 @@ translator:
     - "^o.*$"
     - "^`.*$"
   comment_format:
-    #- "xform/^.+$/…/"
+    - "xform/^.+$/…/"
 
 fixed:
   __include: /translator
-  enable_encoder: true
-  enable_user_dict: true
+  enable_encoder: false
+  enable_user_dict: false
   encode_commit_history: false  # 开启/关闭自动造词功能：true/false。
   max_phrase_length: 4
   initial_quality: -1.5
 
-udzc:
-  __include: /translator
-  initial_quality: -1
-  enable_sentence: true
-  prefix: "'"
-  tips: "〔造词〕"
-  tag: udzc
+#udzc:
+#  __include: /translator
+#  initial_quality: -1
+#  enable_encoder: false
+#  enable_user_dict: false
+#  enable_sentence: true
+#  prefix: "'"
+#  #tips: "〔造词〕"
+#  tag: udzc
 
 simplification:
   opencc_config: st_tu.json
@@ -111,6 +115,8 @@ shared_emoji:
   enable_sentence: false
   enable_completion: false
   initial_quality: -1 #本表词和系统词重码居后
+  comment_format:
+    - "xform/^~//"
 
 pimgeek_english_translator:
   tag: abc
@@ -119,7 +125,7 @@ pimgeek_english_translator:
 reverse_lookup:
   dictionary: tiger.extended
   prefix: "`"
-  tips: "〔虎码〕"
+  tips: "〔虎码反查〕"
 
 key_binder:
   import_preset: default #方案切换相关
@@ -140,15 +146,15 @@ recognizer:
   patterns:
     uppercase: "[A-Z][-_+.'0-9A-Za-z]*$"
     reverse_lookup: "^`[a-z]*'?$"
-    udzc: "^[a-z]*'[a-z']*$"
+    #udzc: "^[a-z]*'[a-z']*$"
     english: "^~[!-~]*$"
-    expression: "^=.*$"
+    #expression: "^=.*$"
     punct: ""
 
 preset_color_schemes:
   metro:
     preedit_type: composition
-    #horizontal: true
+    inline_preedit: true
 
 style:
   color_scheme: metro
